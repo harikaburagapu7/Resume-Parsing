@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer - Home</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero h2 {
+            font-size: 2em;
+            margin: 0 0 20px;
+        }
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #fff;
+            color: #4CAF50;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #e0e0e0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Resume Analyzer</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/upload">Upload</a>
+            <a href="/features">Features</a>
+            
+        </nav>
+    </header>
+    
+    <div class="hero">
+        <h2>Analyze Resumes with Ease</h2>
+        <p>Use our advanced tool to evaluate resumes and match them with job descriptions using NLP techniques.</p>
+        <a href="/upload" class="btn">Get Started</a>
+    </div>
+
+    <div class="container">
+        <h3>Why Choose Resume Analyzer?</h3>
+        <p>Our application provides powerful features that help you streamline the hiring process and make informed decisions.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Resume Analyzer. All rights reserved.</p>
+        <p>DEVELPED BY Harika and Sruti</p>
+        <p>Guided By Dr. Dhawaleshwar Sir</p>
+    </footer>
+</body>
+</html>

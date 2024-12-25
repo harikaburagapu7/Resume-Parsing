@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .result-box {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Analysis Results</h2>
+        
+        <div class="result-box">
+            <h4>Extracted Text:</h4>
+            <pre>{{ extracted_text }}</pre>
+        </div>
+        
+        <div class="result-box">
+            <h4>Missing Words:</h4>
+            <ul>
+                {% for word in missing_words %}
+                    <li>{{ word }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="result-box">
+            <h4>Similarity Score:</h4>
+            <p>{{ similarity_score }}</p>
+        </div>
+
+        <h4>Evaluation Metrics:</h4>
+        <div>
+            <img src="{{ url_for('static', filename='bar_graph.png') }}" alt="Bar Graph">
+            <img src="{{ url_for('static', filename='line_graph.png') }}" alt="Line Graph">
+            <img src="{{ url_for('static', filename='pie_chart.png') }}" alt="Pie Chart">
+        </div>
+
+        <a href="{{ url_for('upload') }}" class="btn btn-primary mt-4">Upload Another Resume</a>
+    </div>
+</body>
+</html>

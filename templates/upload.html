@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        input[type="file"] {
+            display: block;
+            margin: 15px auto;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #output {
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+        #results {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        pre {
+            background: #eef;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .text-box {
+            padding: 15px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+        }
+        .text-box p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .youtube-videos {
+            margin-top: 40px;
+        }
+        .youtube-videos iframe {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Resume</h1>
+        <form id="uploadForm">
+            <input type="file" name="resumeFile" accept=".pdf,.doc,.docx" required aria-label="Upload Resume File"><br>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="output">
+            <h2>Analysis Results</h2>
+            <div id="results">
+                <p><strong>Extracted Text:</strong></p>
+                <div class="text-box" id="extractedText"></div>
+                <p><strong>Missing Words:</strong></p>
+                <div class="text-box" id="missingWords"></div>
+                <p><strong>Cosine Similarity:</strong></p>
+                <div class="text-box" id="similarityScore"></div>
+                <h3>Evaluation Metrics</h3>
+                <ul>
+                    <li><strong>Precision:</strong> <span id="precision"></span></li>
+                    <li><strong>Recall:</strong> <span id="recall"></span></li>
+                    <li><strong>F1 Score:</strong> <span id="f1Score"></span></li>
+                </ul>
+            </div>
+
+            <div class="youtube-videos">
+                <h3>Recommended YouTube Videos on Resume Parsing</h3>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/64gr3tm6_jA?si=w3spJOG5Nq_3hh52" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/tMLEPtwFklQ?si=snKWA8ydzyRSHt_7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/jw1VKTovfW0?si=HnEyBZfLnVdxrtPr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/hqu5EYMLCUw?si=ozwnjUWceImhpgJd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/1H_hCpCVYMU?si=6bV5UK6SeI3pMQ2_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div id="errorMessage" style="color: red; display: none;"></div>
+        <script>
+            document.getElementById('uploadForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const fileInput = event.target.elements.resumeFile.files[0];
+                const formData = new FormData();
+                formData.append('resumeFile', fileInput);
+                
+                fetch('/upload_file', { method: 'POST', body: formData })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById('extractedText').innerHTML = formatText(data.extracted_text);
+                        document.getElementById('missingWords').innerHTML = data.missing_words.join(', ') || "None";
+                        document.getElementById('similarityScore').innerHTML = data.similarity_score.toFixed(2) + '%';
+                        
+                        // Display evaluation metrics
+                        document.getElementById('precision').textContent = data.metrics.precision;
+                        document.getElementById('recall').textContent = data.metrics.recall;
+                        document.getElementById('f1Score').textContent = data.metrics.f1_score;
+                        
+                        document.getElementById('output').style.display = 'block'; // Show output section
+                        document.getElementById('errorMessage').style.display = 'none'; // Hide error message
+                    })
+                    .catch(error => {
+                        document.getElementById('errorMessage').textContent = 'Error: ' + error.message;
+                        document.getElementById('errorMessage').style.display = 'block'; // Show error message
+                        document.getElementById('output').style.display = 'none'; // Hide output section
+                    });
+            });
+
+            function formatText(text) {
+                const paragraphs = text.split("\n").filter(paragraph => paragraph.trim().length > 0);
+                return paragraphs.map(paragraph => `<p>${paragraph}</p>`).join('');
+            }
+        </script>
+    </div>
+</body>
+</html>
